@@ -22,6 +22,11 @@ func mqttCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 
 func main() {
 	channels := [1]uint32{synerex.MQTT_GATEWAY_SVC}
-	s := synerex.NewSynerexConfig("sample", channels)
-	s.SubscribeSupply(channels[0], mqttCallback)
+	names := [1]string{"mqtt_sample"}
+	s, err := synerex.NewSynerexConfig("sample", channels, names)
+	if err != nil {
+		log.Print("Failure on Starting Synerex Provider ..", err)
+	} else {
+		s.SubscribeSupply(channels[0], mqttCallback)
+	}
 }

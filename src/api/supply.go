@@ -23,7 +23,6 @@ func (s SynerexConfig) callSubscribeSupply(channelType uint32, callback func(clt
 	}
 }
 
-
 // Send supply to all providers
 func (s SynerexConfig) NotifySupply(protocolBuffer []byte, channelType uint32, supplyName string) (uint64, error) {
 	client := s.ChannelList[channelType]
@@ -34,6 +33,9 @@ func (s SynerexConfig) NotifySupply(protocolBuffer []byte, channelType uint32, s
 		Cdata: &cData,
 	}
 	id, err := client.NotifySupply(&supplyOpt)
+	if err != nil {
+		s.ReconnectClient(client)
+	}
 	return id, err
 }
 
