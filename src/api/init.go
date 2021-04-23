@@ -67,6 +67,7 @@ func NewSynerexConfig(nodeName string, channelTypes []uint32, channelNames []str
 
 	// connect each channel
 	for i := 0; i < len(channelTypes); i++ {
+		log.Print("Initializing channel type: ", channelTypes[i], " name: ", channelNames[i])
 		s.startSingleChannel(channelTypes[i], channelNames[i])
 	}
 	return s, nil
