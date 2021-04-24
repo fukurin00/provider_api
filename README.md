@@ -1,8 +1,12 @@
 # Synerex_provider_api
 Synerex provider api
 
+tested go version is 1.15
+
 # How to Use?
-`go get bitbucket.org/uclabnu/synerex_provider_api`
+`go get https://github.com/fukurin00/provider_api`
 
 # Sample Code
+## Sample MQTT_channel subscriber
 `SampleSubscriber.go`
+

@@ -1,4 +1,4 @@
-module bitbucket.org/uclabnu/synerex_provider_api
+module github.com/fukurin00/provider_api
 go 1.15
 
 require (

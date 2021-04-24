@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	synerex "bitbucket.org/uclabnu/synerex_provider_api/src/api"
+	synerex "github.com/fukurin00/provider_api/src/api"
 	sxmqtt "github.com/synerex/proto_mqtt"
 	api "github.com/synerex/synerex_api"
 	sxutil "github.com/synerex/synerex_sxutil"
