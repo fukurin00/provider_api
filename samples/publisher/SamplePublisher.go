@@ -1,0 +1,40 @@
+package main
+
+import (
+	"encoding/json"
+	"log"
+	"sync"
+
+	synerex "github.com/fukurin00/provider_api"
+	sxmqtt "github.com/synerex/proto_mqtt"
+	"google.golang.org/protobuf/proto"
+)
+
+func main() {
+	wg := sync.WaitGroup{}
+	channels := []uint32{synerex.MQTT_GATEWAY_SVC}
+	names := []string{"mqtt_sample"}
+	wg.Add(1)
+	s, err := synerex.NewSynerexConfig("sample", channels, names)
+	if err != nil {
+		log.Print("failure on Starting Synerex Provider ..", err)
+	} else {
+		topic := "test/sample"
+		msg := `{"sample": "test"}`
+		jmsg, err := json.Marshal(msg)
+		if err != nil {
+			log.Print(err)
+		}
+		rec := &sxmqtt.MQTTRecord{
+			Topic:  topic,
+			Record: jmsg,
+		}
+		out, err := proto.Marshal(rec)
+		id, err := s.NotifySupply(out, synerex.MQTT_GATEWAY_SVC, "testMessage")
+		if err != nil {
+			log.Print(err)
+		}
+		log.Printf("send message to id %d", id)
+	}
+	wg.Wait()
+}

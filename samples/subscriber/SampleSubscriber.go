@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	synerex "github.com/fukurin00/provider_api/src/api"
+	synerex "github.com/fukurin00/provider_api"
 	sxmqtt "github.com/synerex/proto_mqtt"
 	api "github.com/synerex/synerex_api"
 	sxutil "github.com/synerex/synerex_sxutil"
@@ -29,7 +29,7 @@ func main() {
 	wg.Add(1)
 	s, err := synerex.NewSynerexConfig("sample", channels, names)
 	if err != nil {
-		log.Print("Failure on Starting Synerex Provider ..", err)
+		log.Print("failure on Starting Synerex Provider ..", err)
 	} else {
 		s.SubscribeSupply(channels[0], mqttCallback)
 	}
