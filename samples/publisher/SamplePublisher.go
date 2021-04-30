@@ -12,8 +12,8 @@ import (
 
 func main() {
 	wg := sync.WaitGroup{}
-	channels := []uint32{synerex.MQTT_GATEWAY_SVC}
-	names := []string{"mqtt_sample"}
+	channels := []uint32{synerex.MQTT_GATEWAY_SVC, synerex.JSON_DATA_SVC}
+	names := []string{"mqtt_sample", "json_sample"}
 	wg.Add(1)
 	s, err := synerex.NewSynerexConfig("sample", channels, names)
 	if err != nil {
@@ -25,12 +25,16 @@ func main() {
 		if err != nil {
 			log.Print(err)
 		}
-		rec := &sxmqtt.MQTTRecord{
+		mqttRec := sxmqtt.MQTTRecord{
 			Topic:  topic,
 			Record: jmsg,
 		}
-		out, err := proto.Marshal(rec)
-		id, err := s.NotifySupply(out, synerex.MQTT_GATEWAY_SVC, "testMessage")
+
+		out, err := proto.Marshal(&mqttRec)
+		if err != nil {
+			log.Print(err)
+		}
+		id, err := s.NotifySupply(out, synerex.MQTT_GATEWAY_SVC, "testMQTTMessage")
 		if err != nil {
 			log.Print(err)
 		}

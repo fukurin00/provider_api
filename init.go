@@ -65,16 +65,16 @@ func NewSynerexConfig(nodeName string, channelTypes []uint32, channelNames []str
 		return s, oerr
 	}
 
+	client := sxutil.GrpcConnectServer(s.SxServerAddress)
 	// connect each channel
 	for i := 0; i < len(channelTypes); i++ {
 		log.Print("Initializing channel type: ", channelTypes[i], " name: ", channelNames[i])
-		s.startSingleChannel(channelTypes[i], channelNames[i])
+		s.startSingleChannel(client, channelTypes[i], channelNames[i])
 	}
 	return s, nil
 }
 
-func (s *SynerexConfig) startSingleChannel(channelType uint32, clientName string) {
-	client := sxutil.GrpcConnectServer(s.SxServerAddress)
+func (s *SynerexConfig) startSingleChannel(client *sxutil.SXSynerexClient, channelType uint32, clientName string) {
 	argJSON := fmt.Sprintf("{Client:%s}", clientName)
 	sxClient := sxutil.NewSXServiceClient(client, channelType, argJSON)
 
